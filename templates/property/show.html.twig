@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title property.title %}
+
+{% block body %}
+<div class="p-5 mb-4 bg-light text-center border">
+    <div class="row">
+        <div class="col-md-8"></div>
+        <div class="col-md-4">
+            <h1>{{ property.title }}</h1>
+            <h2>{{ property.rooms }} pièces - {{ property.surface }} m²</h2>
+            <div class="text-primary" style="font-size: 4rem;">{{ property.formattedPrice }}</div>
+            <a href="" class="btn btn-primary">Contacter l'agence</a>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <!-- nav class="nav nav-tabs" id="tab"></nav -->
+    <p> {{ property.description|nl2br }} </p>
+
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Caractéristiques</h2>
+            <table class="table table-stripped">
+                <tr>
+                    <td>Surface habitable</td>
+                    <td>{{ property.surface }} m²</td>
+                </tr>
+                <tr>
+                    <td>Pièces</td>
+                    <td>{{ property.rooms }} m²</td>
+                </tr>
+                <tr>
+                    <td>Chambres</td>
+                    <td>{{ property.bedrooms }} m²</td>
+                </tr>
+                <tr>
+                    <td>Etage</td>
+                    <td>{{ property.floor }} m²</td>
+                </tr>
+                <tr>
+                    <td>Chauffage</td>
+                    <td>{{ property.heatType }} m²</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <h2>Spécificités</h2>
+        </div>
+    </div>
+</div>
+{% endblock %}
