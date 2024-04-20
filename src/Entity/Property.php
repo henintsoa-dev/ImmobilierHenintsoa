@@ -2,13 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\PropertyRepository;
 use DateTimeImmutable;
+use Cocur\Slugify\Slugify;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Cocur\Slugify\Slugify;
+use App\Repository\PropertyRepository;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: PropertyRepository::class)]
+#[UniqueEntity('title')]
 class Property
 {
     const HEAT = [
@@ -21,6 +24,7 @@ class Property
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\Length(min: 5, max: 255)]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
@@ -28,6 +32,10 @@ class Property
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Assert\Range(
+        min: 10,
+        max: 400
+    )]
     private ?int $surface = null;
 
     #[ORM\Column]
@@ -51,6 +59,7 @@ class Property
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
+    #[Assert\Regex('/^[0-9]{5}$/')]
     #[ORM\Column(length: 255)]
     private ?string $postal_code = null;
 
