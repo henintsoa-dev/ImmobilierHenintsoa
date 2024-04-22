@@ -18,7 +18,6 @@
             <thead>
                 <tr>
                     <th>Titre du bien</th>
-                    <th>Description du bien</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -27,9 +26,8 @@
                 {% for property in properties %}
                     <tr>
                         <td>{{ property.title }}</td>
-                        <td>{{ property.description }}</td>
                         <td><a href="{{ path('app_admin_property_edit', {id:property.id}) }}" class="btn btn-secondary">Editer</a>
-                            <form method="post" action="{{ path('app_admin_property_delete', {'id': property.id}) }}" style="display:inline-block" onsubmit="return confirm('Êtes vous vraiment sûr ?');">
+                            <form method="post" action="{{ path('app_admin_property_delete', {'id': property.id}) }}" onsubmit="return confirm('Êtes vous vraiment sûr ?');" class="d-inline-block">
                                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ property.id) }}">
                                 <button class="btn btn-danger">Supprimer</button>
                             </form>
@@ -40,7 +38,7 @@
         </table>
                 
         <div class="text-right">
-            <a href="{{ path('app_admin_property_new')}}" class="btn btn-primary float-right">Créer un nouveau bien</a>  
+            <a href="{{ path('app_admin_property_new')}}" class="btn btn-primary">Créer un nouveau bien</a>  
         </div>       
 
     </div>

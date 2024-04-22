@@ -24,11 +24,11 @@
         /**
          * @var ArrayCollection
          */
-        // protected $options;
+        protected $options;
 
         public function __construct()
         {
-            // $this->options = new ArrayCollection();
+            $this->options = new ArrayCollection();
         }
 
         /**
@@ -70,16 +70,16 @@
         /**
          * @return ArrayCollection
          */
-        // public function getOptions(): ArrayCollection
-        // {
-        //     return $this->options;
-        // }
+        public function getOptions(): ArrayCollection
+        {
+            return $this->options;
+        }
 
         /**
          * @param ArrayCollection $options
          */
-        // public function setOptions(ArrayCollection $options): void
-        // {
-        //     $this->options = $options;
-        // }
+        public function setOptions(ArrayCollection $options): void
+        {
+            $this->options = $options;
+        }
     }

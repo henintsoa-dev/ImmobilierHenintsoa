@@ -10,9 +10,11 @@
 
         
         <div class="mt-4">
-        <a href="{{ path('app_admin_property_index') }}">revenir à la liste</a>
-        {{ include('admin_property/_delete_form.html.twig') }}
+            <a href="{{ path('app_admin_property_index') }}" class="me-2">Revenir à la liste</a>
+
+            {{ include('admin_property/_delete_form.html.twig') }}
         </div>
 
     </div>
 {% endblock %}
+
