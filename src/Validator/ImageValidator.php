@@ -27,6 +27,8 @@ class ImageValidator extends ConstraintValidator
         foreach($images as $image) {
             if ($image->getName() == null && $image->getFile() == null) {
                 $missingFile = true;
+                
+                break;
             }
         }
 

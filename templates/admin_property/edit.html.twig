@@ -5,6 +5,12 @@
 {% block body %}
     <div class="container mt-4">
         <h1>Editer le bien</h1>
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
         
         {{ include('admin_property/_form.html.twig', {'button_label': 'Enregistrer'}) }}
 
