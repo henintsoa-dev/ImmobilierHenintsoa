@@ -24,18 +24,25 @@
             <button class="btn btn-primary">{{ button|default('Enregistrer') }}</button>    
     </div>
     <div class="col-md-4">
-        <div class="images row" data-index="{{ form.images|length > 0 ? form.images|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}">
+        <div class="images row" data-index="{{ form.images|length > 0 ? form.images|last.vars.name + 1 : 0 }}" data-prototype="{{ form_row(form.images.vars.prototype)|e('html_attr') }}">
             <input type="hidden" value="{{ photoMax }}" id="photoMax">
-        {% for image in form.images %}
-            <div class="col-lg-6">
-            {% if image.vars.data.name %}
-                <img src="{{ asset('uploads/images/') ~ image.vars.data.name }}" class="w-100 h-auto card-img-top" />
-            {% else %}
-                <img src="{{ asset('/images/no-img.png') ~ image.vars.data.name }}" class="w-100 h-auto card-img-top" />
-            {% endif %}
-                {{ form_row(image.file) }}
+            
+            {% for image in form.images %}
+                <div class="col-lg-6">
+                {% if image.vars.data.name %}
+                    <img src="{{ asset('uploads/images/') ~ image.vars.data.name }}" class="w-100 h-auto card-img-top" />
+                {% else %}
+                    <img src="{{ asset('/images/no-img.png') ~ image.vars.data.name }}" class="w-100 h-auto card-img-top" />
+                {% endif %}
+                    {{ form_row(image.file) }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 mt-4">
+                {{ form_errors(form) }}
             </div>
-        {% endfor %}
         </div>
 
         <div class="row">

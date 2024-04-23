@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Validator\Image as ValidatorImage;
 
 class PropertyType extends AbstractType
 {
@@ -52,7 +53,8 @@ class PropertyType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Property::class,
             'translation_domain' => 'form',
-            'is_new' => true
+            'is_new' => true,
+            'constraints' => new ValidatorImage()
         ]);
     }
 }

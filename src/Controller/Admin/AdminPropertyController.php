@@ -41,7 +41,7 @@ class AdminPropertyController extends AbstractController
     #[Route('/new', name: 'app_admin_property_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $photoMax    = 3;
+        $photoMax    = 4;
 
         $property = new Property();
         $form = $this->createForm(PropertyType::class, $property, ['is_new' => true]);
@@ -86,7 +86,7 @@ class AdminPropertyController extends AbstractController
     #[Route('/{id}/edit', name: 'app_admin_property_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Property $property, EntityManagerInterface $entityManager): Response
     {
-        $photoMax    = 3;
+        $photoMax    = 4;
         $initialImages = [];
         $finalImages = [];
 
@@ -128,7 +128,7 @@ class AdminPropertyController extends AbstractController
             }
             
             $this->addFlash('success', 'Bien modifié avec succès');
-            return $this->redirectToRoute('app_admin_property_index', [], Response::HTTP_SEE_OTHER);
+            // return $this->redirectToRoute('app_admin_property_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('admin_property/edit.html.twig', [

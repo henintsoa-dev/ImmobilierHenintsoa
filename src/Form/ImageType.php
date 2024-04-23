@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Image;
 use App\Entity\Property;
+use App\Validator\Image as ValidatorImage;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -23,7 +24,7 @@ class ImageType extends AbstractType
             // make it optional so you don't have to re-upload the PDF file
             // every time you edit the Product details
             'required' => false,
-            'constraints' => $options['is_new'] == true ? [new NotBlank()] : []
+            // 'constraints' => $options['is_new'] == true ? [new NotBlank()] : []
         ])
         ;
     }
