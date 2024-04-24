@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Image;
+use App\Utils\Form\FormHelper;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 #[Route('/admin/property')]
 class AdminPropertyController extends AbstractController
@@ -34,7 +36,7 @@ class AdminPropertyController extends AbstractController
     public function index(PropertyRepository $propertyRepository): Response
     {
         return $this->render('admin_property/index.html.twig', [
-            'properties' => $propertyRepository->findAll(),
+            'properties' => $propertyRepository->findBy([], ['id' => 'DESC']),
         ]);
     }
 
@@ -47,25 +49,58 @@ class AdminPropertyController extends AbstractController
         $form = $this->createForm(PropertyType::class, $property, ['is_new' => true]);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $images = $form->get('images')->getData();
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $images = $form->get('images')->getData();
 
-            // dd($images);
+                // dd($images);
 
-            /** @var Image $image **/
-            foreach ($images as $image) {
-                if ($image->getFile()) {
-                    $fileName = $this->fileUploader->upload($image->getFile());
-                    $image->setName($fileName);
+                /** @var Image $image **/
+                foreach ($images as $image) {
+                    if ($image->getFile()) {
+                        $fileName = $this->fileUploader->upload($image->getFile());
+                        $image->setName($fileName);
 
-                    $property->addImage($image);
+                        $property->addImage($image);
+                    }
+                }
+                
+                $entityManager->persist($property);
+                $entityManager->flush();
+
+
+                
+                $redirectParams = [];
+                $redirectRoute = 'app_admin_property_index';
+                
+                if ($request->isXmlHttpRequest()) {
+                    $url = $this->generateUrl($redirectRoute, $redirectParams);
+
+                    $this->addFlash('success', 'Bien modifié avec succès');
+                    
+                    return new JsonResponse([
+                        'success' => true,
+                        'url' => $url
+                    ]);
+                } else {
+                    return $this->redirectToRoute($redirectRoute, $redirectParams);
                 }
             }
-            
-            $entityManager->persist($property);
-            $entityManager->flush();
+            // If it's an AJAX request...
+            elseif ($request->isXmlHttpRequest()) {
+                $env = $this->getParameter('kernel.environment');
 
-            return $this->redirectToRoute('app_admin_property_index', [], Response::HTTP_SEE_OTHER);
+                $response = new JsonResponse([
+                    'type' => 'validation_error',
+                    'errors' => FormHelper::getFormErrors($form)
+                ], 400);
+
+                if ($env === 'dev') {
+                    $response->headers->set('Symfony-Debug-Toolbar-Replace', 1);
+                }
+
+                return $response;
+            }
         }
 
         return $this->render('admin_property/new.html.twig', [
@@ -98,37 +133,68 @@ class AdminPropertyController extends AbstractController
         $form = $this->createForm(PropertyType::class, $property, ['is_new' => false]);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $images = $form->get('images')->getData();
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $images = $form->get('images')->getData();
 
-            /** @var Image $image **/
-            foreach ($images as $image) {
-                if ($image->getFile()) {
-                    $fileName = $this->fileUploader->upload($image->getFile());
-                    $image->setName($fileName);
+                /** @var Image $image **/
+                foreach ($images as $image) {
+                    if ($image->getFile()) {
+                        $fileName = $this->fileUploader->upload($image->getFile());
+                        $image->setName($fileName);
 
-                    $property->addImage($image);
-                }
-            }
-            
-            $entityManager->flush();
-            
-            foreach($property->getImages() as $finalImage) {
-                $finalImages[] = $finalImage->getName();
-            }
-
-            foreach ($initialImages as $initialImage) {
-                if (!in_array($initialImage, $finalImages)) {
-                    $fileExist = file_exists($this->targetDirectory . $initialImage);
-
-                    if ($fileExist) {
-                        unlink($this->targetDirectory . $initialImage);
+                        $property->addImage($image);
                     }
                 }
+                
+                $entityManager->flush();
+                
+                foreach($property->getImages() as $finalImage) {
+                    $finalImages[] = $finalImage->getName();
+                }
+
+                foreach ($initialImages as $initialImage) {
+                    if (!in_array($initialImage, $finalImages)) {
+                        $fileExist = file_exists($this->targetDirectory . $initialImage);
+
+                        if ($fileExist) {
+                            unlink($this->targetDirectory . $initialImage);
+                        }
+                    }
+                }
+                
+                $redirectParams = [ 'id' => $property->getId() ];
+                $redirectRoute = 'app_admin_property_edit';
+                
+                if ($request->isXmlHttpRequest()) {
+                    $url = $this->generateUrl($redirectRoute, $redirectParams);
+
+                    $this->addFlash('success', 'Bien modifié avec succès');
+                    
+                    return new JsonResponse([
+                        'success' => true,
+                        'url' => $url
+                    ]);
+                } else {
+                    return $this->redirectToRoute($redirectRoute, $redirectParams);
+                }
+            } 
+            // If it's an AJAX request...
+            elseif ($request->isXmlHttpRequest()) {
+                $env = $this->getParameter('kernel.environment');
+
+                $response = new JsonResponse([
+                    'type' => 'validation_error',
+                    'errors' => FormHelper::getFormErrors($form)
+                ], 400);
+
+                if ($env === 'dev') {
+                    $response->headers->set('Symfony-Debug-Toolbar-Replace', 1);
+                }
+
+                return $response;
             }
             
-            $this->addFlash('success', 'Bien modifié avec succès');
-            // return $this->redirectToRoute('app_admin_property_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('admin_property/edit.html.twig', [
