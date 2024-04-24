@@ -98,7 +98,6 @@ export class FormHandler {
 
         if (success && url !== null) {
             this.preventUnload = false
-            console.log('success ?', 'true')
 
             window.addEventListener("beforeunload", (e) => {
                 if (this.preventUnload === true) {
@@ -118,6 +117,7 @@ export class FormHandler {
             {globalErrorContainer} = this.options
 
         $.each(errorFields, (errorFieldName, errors) => {
+            
             //error mapping defined by user
             for (let originMapping in this.options.mapping) {
                 let newMapping = this.options.mapping[originMapping];
@@ -138,7 +138,7 @@ export class FormHandler {
                 fieldElt.addClass('is-invalid')
                 const htmlErrorList = this._getFormHtmlErrorList(errors)
                 fieldEltHolder.append(htmlErrorList)
-            } else if (errorFieldName === 'registration_form_globals') {
+            } else if (errorFieldName === 'property_globals') {
                 globalErrors.push(errors)
             }
         })
@@ -169,7 +169,6 @@ export class FormHandler {
     }
 
     _gotoFirstError() {
-        console.log($('.is-invalid'))
         if ($('.is-invalid').length > 0) {
             $("html, body").animate({
                 scrollTop: parseInt($('.invalid-feedback').first().offset().top) - 150
