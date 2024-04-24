@@ -5,7 +5,42 @@
 {% block body %}
 <div class="p-5 mb-4 bg-light text-center border">
     <div class="row">
-        <div class="col-md-8"></div>
+        <div class="col-md-8">
+            {% set imagesNumber = property.images.count %}
+            {% if imagesNumber > 1  %}
+                <div id="carouselExampleDark" class="carousel slide" data-bs-ride="carousel">
+                    {% set images = property.images %}
+                    <div class="carousel-indicators">
+                        {% for key,image in images %}
+                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="{{key}}" class="active" aria-current="true" aria-label="Slide {{key + 1}}"></button>
+                        {% endfor %}
+                    </div>
+                    <div class="carousel-inner">
+                        {% set first_image = property.images|first %}
+                        {% for key,image in images %}
+                        <div class="carousel-item {% if image.id == first_image.id  %}active{%endif%}" data-bs-interval="10000">
+                            <img src="{{asset('uploads/images/' ~ image.name)}}" class="d-block w-100" alt="...">
+                        </div>
+                    {% endfor %}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            {% else %}
+                {% set first = property.images|first %}
+                {% if first %}
+                    <img src="{{ asset('/uploads/images/' ~ first.name) }}" class="card-img-top" alt="img" style="width:100%; height:auto;">  
+                {% else %}
+                    <img src="{{ asset('/images/no-img.png') }}" class="card-img-top" alt="img" style="width:100%; height:auto;">  
+                {% endif %}
+            {% endif %}
+        </div>
         <div class="col-md-4">
             <h1>{{ property.title }}</h1>
             <h2>{{ property.rooms }} pièces - {{ property.surface }} m²</h2>
@@ -50,4 +85,18 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function (){
+            console.log('Hello world !!!')
+            var myCarousel = document.querySelector('#carouselExampleDark')
+            console.log(myCarousel)
+            var carousel = new bootstrap.Carousel(myCarousel, {
+              interval: 2000,
+              wrap: false
+            })
+        })
+    </script>
 {% endblock %}

@@ -22,15 +22,6 @@ export class FormHandler {
         this.formElt = formElt
         this.formName = this.formElt.attr('name')
         this.preventUnload = true;
-
-        /* window.addEventListener("beforeunload", (e) => {
-            if (this.preventUnload === true) {
-                // Cancel the event
-                e.preventDefault()
-                e.returnValue = ""
-            }
-        }); */
-
     }
 
     onFormError(error) {
