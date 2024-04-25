@@ -37,7 +37,7 @@ function addFormToCollection(e) {
     collectionHolder.appendChild(item);
 
     const img = document.createElement('img')
-    img.src = '/images/no-img.png'
+    img.src = '/images/images_directory'
     img.classList.add('w-100')
     img.classList.add('h-auto')
     img.classList.add('card-img-top')

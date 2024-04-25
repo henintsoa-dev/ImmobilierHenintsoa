@@ -19,7 +19,7 @@
                         {% set first_image = property.images|first %}
                         {% for key,image in images %}
                         <div class="carousel-item {% if image.id == first_image.id  %}active{%endif%}" data-bs-interval="2000">
-                            <img src="{{asset('uploads/images/' ~ image.name)}}" class="d-block w-100" alt="...">
+                            <img src="{{asset(uploaded_images_directory ~ image.name)}}" class="d-block w-100" alt="...">
                         </div>
                     {% endfor %}
                     </div>
@@ -35,7 +35,7 @@
             {% else %}
                 {% set first = property.images|first %}
                 {% if first %}
-                    <img src="{{ asset('/uploads/images/' ~ first.name) }}" class="card-img-top" alt="img" style="width:100%; height:auto;">  
+                    <img src="{{ asset(uploaded_images_directory ~ first.name) }}" class="card-img-top" alt="img" style="width:100%; height:auto;">  
                 {% else %}
                     <img src="{{ asset('/images/pngtree-cartoon-european-classical-house-image_1278656.jpg') }}" class="card-img-top" alt="img" style="width:100%; height:auto;">  
                 {% endif %}

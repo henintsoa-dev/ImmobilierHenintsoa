@@ -10,9 +10,9 @@
        
         {% set first = property.images|first %}
         {% if first %}
-            <img src="{{ asset('/uploads/images/' ~ first.name) }}" class="card-img-top" alt="img" style="width:100%; height:auto;">  
+            <img src="{{ asset(uploaded_images_directory ~ first.name) | imagine_filter('thumb') }}" class="card-img-top w-100" alt="img" style="">  
         {% else %}
-            <img src="{{ asset('/images/pngtree-cartoon-european-classical-house-image_1278656.jpg') }}" class="card-img-top" alt="img" style="width:100%; height:auto;">  
+            <img src="{{ asset('/images/pngtree-cartoon-european-classical-house-image_1278656.jpg') | imagine_filter('thumb') }}" class="card-img-top" alt="img" style="width:100%; height:auto;">  
         {% endif %}
    
 
