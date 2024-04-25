@@ -18,7 +18,7 @@
                     <div class="carousel-inner">
                         {% set first_image = property.images|first %}
                         {% for key,image in images %}
-                        <div class="carousel-item {% if image.id == first_image.id  %}active{%endif%}" data-bs-interval="10000">
+                        <div class="carousel-item {% if image.id == first_image.id  %}active{%endif%}" data-bs-interval="2000">
                             <img src="{{asset('uploads/images/' ~ image.name)}}" class="d-block w-100" alt="...">
                         </div>
                     {% endfor %}
@@ -37,7 +37,7 @@
                 {% if first %}
                     <img src="{{ asset('/uploads/images/' ~ first.name) }}" class="card-img-top" alt="img" style="width:100%; height:auto;">  
                 {% else %}
-                    <img src="{{ asset('/images/no-img.png') }}" class="card-img-top" alt="img" style="width:100%; height:auto;">  
+                    <img src="{{ asset('/images/pngtree-cartoon-european-classical-house-image_1278656.jpg') }}" class="card-img-top" alt="img" style="width:100%; height:auto;">  
                 {% endif %}
             {% endif %}
         </div>
@@ -90,12 +90,9 @@
 {% block javascripts %}
     <script>
         document.addEventListener('DOMContentLoaded', function (){
-            console.log('Hello world !!!')
             var myCarousel = document.querySelector('#carouselExampleDark')
-            console.log(myCarousel)
             var carousel = new bootstrap.Carousel(myCarousel, {
-              interval: 2000,
-              wrap: false
+              interval: 2000
             })
         })
     </script>
