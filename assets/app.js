@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function(){
   const contactButton = document.getElementById('contactButton');
   
   if (contactButton) {
-    console.log('contact button !!!')
+    
     contactButton.addEventListener('click', function(e) {
       e.preventDefault();
   
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function(){
     })
   
   }
-  
+
 })
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
