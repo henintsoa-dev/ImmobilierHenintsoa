@@ -69,8 +69,6 @@ class AdminPropertyController extends AbstractController
                 
                 $entityManager->persist($property);
                 $entityManager->flush();
-
-
                 
                 $redirectParams = [];
                 $redirectRoute = 'app_admin_property_index';

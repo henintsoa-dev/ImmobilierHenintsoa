@@ -3,49 +3,89 @@
 {% block title property.title %}
 
 {% block body %}
-<div class="p-5 mb-4 bg-light text-center border">
-    <div class="row">
-        <div class="col-md-8">
-            {% set imagesNumber = property.images.count %}
-            {% if imagesNumber > 1  %}
-                <div id="carouselExampleDark" class="carousel slide" data-bs-ride="carousel">
-                    {% set images = property.images %}
-                    <div class="carousel-indicators">
-                        {% for key,image in images %}
-                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="{{key}}" class="active" aria-current="true" aria-label="Slide {{key + 1}}"></button>
-                        {% endfor %}
+<div class="p-5 mb-4 bg-light border">
+    <div class="container">
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {% if not form.vars.valid %}
+            <div class="alert alert-danger">
+                Erreur : informations erronnées.
+                {#% for message in form.errors %}
+                    <p>{{ message }}</p>
+                {% endfor %#}
+                {# <pre>
+                    {{ dump() }}
+                </pre> #}
+            </div>
+        {% endif %}
+        
+        <div class="row">
+            <div class="col-md-8">
+                {% set imagesNumber = property.images.count %}
+                {% if imagesNumber > 1  %}
+                    <div id="carouselExampleDark" class="carousel slide" data-bs-ride="carousel">
+                        {% set images = property.images %}
+                        <div class="carousel-indicators">
+                            {% for key,image in images %}
+                            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="{{key}}" class="active" aria-current="true" aria-label="Slide {{key + 1}}"></button>
+                            {% endfor %}
+                        </div>
+                        <div class="carousel-inner">
+                            {% set first_image = property.images|first %}
+                            {% for key,image in images %}
+                                <div class="carousel-item {% if image.id == first_image.id  %}active{%endif%}" data-bs-interval="2000">
+                                    <img src="{{ asset(uploaded_images_directory ~ image.name) | imagine_filter('medium') }}" class="d-block w-100" alt="...">
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
                     </div>
-                    <div class="carousel-inner">
-                        {% set first_image = property.images|first %}
-                        {% for key,image in images %}
-                            <div class="carousel-item {% if image.id == first_image.id  %}active{%endif%}" data-bs-interval="2000">
-                                <img src="{{ asset(uploaded_images_directory ~ image.name) | imagine_filter('medium') }}" class="d-block w-100" alt="...">
-                            </div>
-                        {% endfor %}
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
-            {% else %}
-                {% set first = property.images|first %}
-                {% if first %}
-                    <img src="{{ asset(uploaded_images_directory ~ first.name) | imagine_filter('medium') }}" class="card-img-top" alt="img" style="width:100%; height:auto;">  
                 {% else %}
-                    <img src="{{ asset('/images/pngtree-cartoon-european-classical-house-image_1278656.jpg') | imagine_filter('medium') }}" class="card-img-top" alt="img" style="width:100%; height:auto;">  
+                    {% set first = property.images|first %}
+                    {% if first %}
+                        <img src="{{ asset(uploaded_images_directory ~ first.name) | imagine_filter('medium') }}" class="card-img-top" alt="img" style="width:100%; height:auto;">  
+                    {% else %}
+                        <img src="{{ asset('/images/pngtree-cartoon-european-classical-house-image_1278656.jpg') | imagine_filter('medium') }}" class="card-img-top" alt="img" style="width:100%; height:auto;">  
+                    {% endif %}
                 {% endif %}
-            {% endif %}
-        </div>
-        <div class="col-md-4">
-            <h1>{{ property.title }}</h1>
-            <h2>{{ property.rooms }} pièces - {{ property.surface }} m²</h2>
-            <div class="text-primary fw-bold" style="font-size: 4rem;">{{ property.formattedPrice }} €</div>
-            <a href="" class="btn btn-primary">Contacter l'agence</a>
+            </div>
+            <div class="col-md-4">
+                <h1>{{ property.title }}</h1>
+                <h2>{{ property.rooms }} pièces - {{ property.surface }} m²</h2>
+                <div class="text-primary fw-bold" style="font-size: 4rem;">{{ property.formattedPrice }} €</div>
+                <a class="btn btn-primary" id="contactButton"  {% if form.vars.submitted %}  style="display:none;" {% endif %}>Contacter l'agence</a>
+                <div id="contactForm" class="mt-4" {% if not form.vars.submitted %}  style="display:none;" {% endif %}>
+                    {{ form_start(form) }}
+                        <div class="row">
+                            <div class="col"> {{ form_row(form.firstName) }} </div>
+                            <div class="col"> {{ form_row(form.lastName) }} </div>
+                        </div>
+                        <div class="row">
+                            <div class="col"> {{ form_row(form.phone) }} </div>
+                            <div class="col"> {{ form_row(form.email) }} </div>
+                        </div>
+
+                        {{ form_rest(form) }}
+                        {{ form_errors(form) }}
+                        <div class="form-group"> 
+                            <button class="btn btn-primary">Envoyer</button>
+                        </div>  
+                    {{ form_end(form) }}
+                            
+                </div>  
+            </div>
         </div>
     </div>
 </div>
