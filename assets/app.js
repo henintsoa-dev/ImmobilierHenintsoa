@@ -10,15 +10,29 @@ import { postData } from './js/common/Form/request';
 
 const element = document.getElementById('property-form');
 
-element.addEventListener('submit', event => {
-  event.preventDefault();
-  // actual logic, e.g. validate the form
-  // console.log('Form submission cancelled.');
+if (element) {
+  element.addEventListener('submit', event => {
+    event.preventDefault();
+  
+    postData()
+  });
+}
 
-  postData()
-});
-
-//document.getElementById('property-form').addEventListener('submit', postData())
-// document.getElementById('submit_button').addEventListener('click', postData)
+document.addEventListener('DOMContentLoaded', function(){
+  const contactButton = document.getElementById('contactButton');
+  
+  if (contactButton) {
+    console.log('contact button !!!')
+    contactButton.addEventListener('click', function(e) {
+      e.preventDefault();
+  
+      const contactForm = document.querySelector('#contactForm')
+      
+      contactForm.classList.toggle('hidden')
+    })
+  
+  }
+  
+})
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');

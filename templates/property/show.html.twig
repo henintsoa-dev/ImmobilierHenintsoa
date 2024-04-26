@@ -2,6 +2,11 @@
 
 {% block title property.title %}
 
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('/styles/style.css') }}">
+{% endblock %}
+
 {% block body %}
 <div class="p-5 mb-4 bg-light border">
     <div class="container">
@@ -12,18 +17,11 @@
             </div>
         {% endfor %}
 
-        {% if not form.vars.valid %}
+       {% if not form.vars.valid %}
             <div class="alert alert-danger">
                 Erreur : informations erronnées.
-                {#% for message in form.errors %}
-                    <p>{{ message }}</p>
-                {% endfor %#}
-                {# <pre>
-                    {{ dump() }}
-                </pre> #}
             </div>
         {% endif %}
-        
         <div class="row">
             <div class="col-md-8">
                 {% set imagesNumber = property.images.count %}
@@ -66,7 +64,7 @@
                 <h2>{{ property.rooms }} pièces - {{ property.surface }} m²</h2>
                 <div class="text-primary fw-bold" style="font-size: 4rem;">{{ property.formattedPrice }} €</div>
                 <a class="btn btn-primary" id="contactButton"  {% if form.vars.submitted %}  style="display:none;" {% endif %}>Contacter l'agence</a>
-                <div id="contactForm" class="mt-4" {% if not form.vars.submitted %}  style="display:none;" {% endif %}>
+                <div id="contactForm" class="mt-4 visible {% if not form.vars.submitted %}hidden{% endif %}">
                     {{ form_start(form) }}
                         <div class="row">
                             <div class="col"> {{ form_row(form.firstName) }} </div>
@@ -133,6 +131,7 @@
 {% endblock %}
 
 {% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
     <script>
         document.addEventListener('DOMContentLoaded', function (){
             var myCarousel = document.querySelector('#carouselExampleDark')
