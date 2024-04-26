@@ -31,3 +31,7 @@ services:
     App\Service\FileUploader:
         arguments:
             $targetDirectory: '%images_directory%'
+
+    App\EventListener\ImageCacheListener:
+        arguments:
+            $targetDirectory: '%images_directory_relative_path%'

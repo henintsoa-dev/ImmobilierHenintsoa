@@ -30,7 +30,7 @@ export class FormHandler {
         this._removeAllError()
 
         if (parseInt(status) === 500) {
-            this._displayErrors({'registration_form_globals': [serveurErrorMessage]})
+            this._displayErrors({'property_globals': [serveurErrorMessage]})
             if (gotoFirstError) this._gotoFirstError()
         }
 

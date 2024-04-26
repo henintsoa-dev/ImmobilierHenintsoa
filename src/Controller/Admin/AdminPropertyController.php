@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Image;
 use App\Utils\Form\FormHelper;
+use Liip\ImagineBundle\Imagine\Cache\CacheManager;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 #[Route('/admin/property')]
@@ -119,7 +121,7 @@ class AdminPropertyController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_admin_property_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Property $property, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Property $property, EntityManagerInterface $entityManager, CacheManager $cacheManager): Response
     {
         $photoMax    = 4;
         $initialImages = [];
@@ -156,7 +158,7 @@ class AdminPropertyController extends AbstractController
                 foreach ($initialImages as $initialImage) {
                     if (!in_array($initialImage, $finalImages)) {
                         $fileExist = file_exists($this->targetDirectory . $initialImage);
-
+                        
                         if ($fileExist) {
                             unlink($this->targetDirectory . $initialImage);
                         }
@@ -205,20 +207,20 @@ class AdminPropertyController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_admin_property_delete', methods: ['POST'])]
-    public function delete(Request $request, Property $property, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Property $property, EntityManagerInterface $entityManager, CacheManager $cacheManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$property->getId(), $request->getPayload()->get('_token'))) {
             $imageArray = [];
-            $imagesAnnonce = $property->getImages();
-
-            foreach ($imagesAnnonce as $imageAnnonce) {
-                $imageArray[] = $imageAnnonce->getName();
+            $images = $property->getImages();
+            
+            foreach ($images as $image) {
+                $imageArray[] = $image->getName();
             }
 
             $entityManager->remove($property);
             $entityManager->flush();
 
-            foreach ($imageArray as $singleImage) {
+            foreach ($imageArray as $key => $singleImage) {
                 $imagePath = $this->targetDirectory . $singleImage;
                 unlink($imagePath);
             }
