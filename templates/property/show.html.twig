@@ -18,10 +18,10 @@
                     <div class="carousel-inner">
                         {% set first_image = property.images|first %}
                         {% for key,image in images %}
-                        <div class="carousel-item {% if image.id == first_image.id  %}active{%endif%}" data-bs-interval="2000">
-                            <img src="{{ asset(uploaded_images_directory ~ image.name) | imagine_filter('medium') }}" class="d-block w-100" alt="...">
-                        </div>
-                    {% endfor %}
+                            <div class="carousel-item {% if image.id == first_image.id  %}active{%endif%}" data-bs-interval="2000">
+                                <img src="{{ asset(uploaded_images_directory ~ image.name) | imagine_filter('medium') }}" class="d-block w-100" alt="...">
+                            </div>
+                        {% endfor %}
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -37,14 +37,14 @@
                 {% if first %}
                     <img src="{{ asset(uploaded_images_directory ~ first.name) | imagine_filter('medium') }}" class="card-img-top" alt="img" style="width:100%; height:auto;">  
                 {% else %}
-                    <img src="{{ asset('/images/pngtree-cartoon-european-classical-house-image_1278656.jpg') }}" class="card-img-top" alt="img" style="width:100%; height:auto;">  
+                    <img src="{{ asset('/images/pngtree-cartoon-european-classical-house-image_1278656.jpg') | imagine_filter('medium') }}" class="card-img-top" alt="img" style="width:100%; height:auto;">  
                 {% endif %}
             {% endif %}
         </div>
         <div class="col-md-4">
             <h1>{{ property.title }}</h1>
             <h2>{{ property.rooms }} pièces - {{ property.surface }} m²</h2>
-            <div class="text-primary" style="font-size: 4rem;">{{ property.formattedPrice }}</div>
+            <div class="text-primary fw-bold" style="font-size: 4rem;">{{ property.formattedPrice }} €</div>
             <a href="" class="btn btn-primary">Contacter l'agence</a>
         </div>
     </div>
@@ -57,7 +57,7 @@
     <div class="row">
         <div class="col-md-8">
             <h2>Caractéristiques</h2>
-            <table class="table table-stripped">
+            <table class="table table-striped">
                 <tr>
                     <td>Surface habitable</td>
                     <td>{{ property.surface }} m²</td>
@@ -82,6 +82,11 @@
         </div>
         <div class="col-md-4">
             <h2>Spécificités</h2>
+            <ul class="list-group">
+                {% for option in property.options %}
+                    <li class="list-group-item">{{ option.name }}</li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 </div>
