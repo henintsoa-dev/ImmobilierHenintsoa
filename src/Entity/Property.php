@@ -324,8 +324,11 @@ class Property
             }
         }
 
-        unlink($imagePath);
-        
+        $fileExist = file_exists($imagePath);
+
+        if ($fileExist) {
+            unlink($imagePath);
+        }
 
         return $this;
     }

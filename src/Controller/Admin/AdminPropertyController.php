@@ -55,8 +55,6 @@ class AdminPropertyController extends AbstractController
             if ($form->isValid()) {
                 $images = $form->get('images')->getData();
 
-                // dd($images);
-
                 /** @var Image $image **/
                 foreach ($images as $image) {
                     if ($image->getFile()) {

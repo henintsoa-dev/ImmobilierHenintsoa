@@ -36,7 +36,7 @@
                         <div class="carousel-inner">
                             {% set first_image = property.images|first %}
                             {% for key,image in images %}
-                                <div class="carousel-item {% if image.id == first_image.id  %}active{%endif%}" data-bs-interval="2000">
+                                <div class="carousel-item {% if image.id == first_image.id  %}active{%endif%}" data-bs-interval="7000">
                                     <img src="{{ asset(uploaded_images_directory ~ image.name) | imagine_filter('medium') }}" class="d-block w-100" alt="...">
                                 </div>
                             {% endfor %}
@@ -131,13 +131,25 @@
 {% endblock %}
 
 {% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
     <script>
         document.addEventListener('DOMContentLoaded', function (){
-            var myCarousel = document.querySelector('#carouselExampleDark')
-            var carousel = new bootstrap.Carousel(myCarousel, {
-              interval: 2000
+            const myCarousel = document.querySelector('#carouselExampleDark')
+            const carousel = new bootstrap.Carousel(myCarousel, {
+              interval: 7000
             })
+            const contactButton = document.getElementById('contactButton');
+            
+            if (contactButton) {
+                
+                contactButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                
+                    const contactForm = document.querySelector('#contactForm')
+                    
+                    contactForm.classList.toggle('hidden')
+                })
+            
+            }
         })
     </script>
 {% endblock %}
