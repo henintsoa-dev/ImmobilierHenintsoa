@@ -77,6 +77,7 @@ function addTagFormDeleteLink(item) {
   removeFormButton.classList.add('btn')
   removeFormButton.classList.add('btn-danger')
   removeFormButton.classList.add('w-100')
+  removeFormButton.classList.add('mb-3')
   removeFormButton.innerText = 'Delete this image';
 
   item.append(removeFormButton);

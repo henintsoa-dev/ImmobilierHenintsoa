@@ -15,12 +15,14 @@ export class FormHandler {
             mapping: {},
             ...options
         }
-        if ($(formEltSelector).length) this._init($(formEltSelector))
+        if (document.querySelector(formEltSelector).length) this._init(document.querySelector(formEltSelector))
+        // if ($(formEltSelector).length) this._init($(formEltSelector))
     }
 
     _init(formElt) {
         this.formElt = formElt
-        this.formName = this.formElt.attr('name')
+        // this.formName = this.formElt.attr('name')
+        this.formName = this.formElt.getAttribute('name')
         this.preventUnload = true;
     }
 
@@ -56,17 +58,19 @@ export class FormHandler {
 
         }
 
-        if (type === 'meantime_updated') {
-            $('body').addClass('show-modal').find('.overlay-modal').fadeIn(500);
-            $('.modal-popin.meantime_updated').fadeIn().css("display", "flex").hide().fadeIn(100);
-        }
+        // if (type === 'meantime_updated') {
+        //     $('body').addClass('show-modal').find('.overlay-modal').fadeIn(500);
+        //     $('.modal-popin.meantime_updated').fadeIn().css("display", "flex").hide().fadeIn(100);
+        // }
 
 
     }
 
     _removeAllError() {
-        $(".invalid-feedback").remove()
-        $(".form-control").removeClass('is-invalid')
+        document.querySelectorAll(".invalid-feedback").forEach((item) => {item.remove()})
+        document.querySelectorAll(".form-control").forEach((item) => {item.classList.remove('is-invalid')})
+        // $(".invalid-feedback").remove()
+        // $(".form-control").removeClass('is-invalid')
     }
 
     _getErrorFields(errors) {
@@ -75,10 +79,10 @@ export class FormHandler {
             const errorPath = (errors.path === undefined) ? '_globals' : errors.path
             errorFields[this.formName + errorPath] = errors.errors
         } else {
-            $.each(errors, (k, error) => {
+            for (let [key, error] of Object.entries(errors)) {
                 const _errorFields = this._getErrorFields(error)
                 errorFields = {...errorFields, ..._errorFields}
-            })
+            }
         }
         return errorFields
     }
@@ -107,8 +111,7 @@ export class FormHandler {
         const globalErrors = [],
             {globalErrorContainer} = this.options
 
-        $.each(errorFields, (errorFieldName, errors) => {
-            
+        for(let [errorFieldName, errors] of Object.entries(errorFields)) {
             //error mapping defined by user
             for (let originMapping in this.options.mapping) {
                 let newMapping = this.options.mapping[originMapping];
@@ -118,26 +121,59 @@ export class FormHandler {
                 }
             }
 
-            let fieldElt = $('[name="' + errorFieldName + '"]')
+            // let fieldElt = $('[name="' + errorFieldName + '"]')
+            let fieldElt = document.querySelector("[name='" + errorFieldName + "']")
 
-            if (!fieldElt.length) {
-                fieldElt = $('[name="' + errorFieldName + '[]"]');
+            if (!fieldElt) {
+                fieldElt = document.querySelector("[name='" + errorFieldName + "[]']");
             }
 
-            if (fieldElt.length) {
-                const fieldEltHolder = fieldElt.closest('.mb-3')
-                fieldElt.addClass('is-invalid')
-                const htmlErrorList = this._getFormHtmlErrorList(errors)
-                fieldEltHolder.append(htmlErrorList)
+            if (fieldElt) {
+
+                let fieldEltHolder = fieldElt.parentNode;
+  
+                while ( !fieldEltHolder.classList.contains('mb-3') ) {
+                    fieldEltHolder = fieldEltHolder.parentNode
+                }
+
+                fieldElt.classList.add('is-invalid')
+
+                if (Array.isArray(errors)) {
+                    errors.forEach(error => {
+                        const htmlErrorList = this._getFormHtmlErrorList(error)
+                        fieldEltHolder.append(htmlErrorList)
+                    })
+                } else {
+                    const htmlErrorList = this._getFormHtmlErrorList(errors)
+                    fieldEltHolder.append(htmlErrorList)
+                }
             } else if (errorFieldName === 'property_globals') {
                 globalErrors.push(errors)
             }
-        })
+        }
 
         if (globalErrors.length > 0) {
-            const globalHtmlErrorList = this._getFormHtmlErrorList(globalErrors)
-            $(globalErrorContainer).html(globalHtmlErrorList)
+            if (Array.isArray(globalErrors)) {
+                globalErrors.forEach(error => {
+                    const globalHtmlError = this._addFormHtmlError(error)
+                    document.querySelector(globalErrorContainer).append(globalHtmlError)
+                })
+            } else {
+                const globalHtmlError = this._addFormHtmlError(globalErrors)
+                document.querySelector(globalErrorContainer).append(globalHtmlError)
+            }
         }
+    }
+
+    _addFormHtmlError(errors) {
+
+        const item = document.createElement('div');
+        item.classList.add('invalid-feedback')
+        item.classList.add('d-block')
+        item.innerText = errors
+
+        return item
+
     }
 
     _getFormHtmlErrorList(errors) {
@@ -147,14 +183,18 @@ export class FormHandler {
     }
 
     _getLiError(errors) {
-        let errorLi = ''
+        let errorLi
 
         if (Array.isArray(errors)) {
-            $.each(errors, (i, error) => {
-                errorLi += this._getLiError(error)
+            errors.forEach((error, i) => {
+                errorLi = this._getLiError(error)
             });
         } else {
-            errorLi += "<div class=\"invalid-feedback d-block\">" + errors + "</div>"
+            const item = document.createElement('div');
+            item.classList.add('invalid-feedback')
+            item.classList.add('d-block')
+            item.innerText = errors
+            errorLi = item
         }
         return errorLi
     }
