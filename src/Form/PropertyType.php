@@ -41,7 +41,11 @@ class PropertyType extends AbstractType
             ])
             ->add('images', CollectionType::class, [
                 'entry_type' => ImageType::class,
-                'entry_options' => ['label' => false, 'is_new' => $options['is_new']],
+                'entry_options' => [
+                    'label' => false, 
+                    'is_new' => $options['is_new'],
+                    'row_attr' => ['class' => 'd-none']
+                ],
                 'allow_add' => true,
                 'prototype' => true,
                 'allow_delete' => true,

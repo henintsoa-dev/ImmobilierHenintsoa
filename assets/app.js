@@ -48,7 +48,17 @@ function addFormToCollection(e) {
   const item = document.createElement('div');
   item.classList.add('col-lg-6');
   
-  item.innerHTML = collectionHolder
+  const label = document.createElement('label')
+  label.classList.add('btn')
+  label.classList.add('w-100')
+  label.classList.add('mb-0')
+  label.classList.add('p-0')
+  label.classList.add('overflow-hidden')
+  label.style.height = "120px";
+
+  collectionHolder.appendChild(item);
+
+  label.innerHTML = collectionHolder
       .dataset
       .prototype
       .replace(
@@ -56,7 +66,7 @@ function addFormToCollection(e) {
       collectionHolder.dataset.index
       );
 
-  collectionHolder.appendChild(item);
+  item.appendChild(label);
 
   const img = document.createElement('img')
   img.src = '/images/no-img.png'
@@ -64,7 +74,7 @@ function addFormToCollection(e) {
   img.classList.add('h-auto')
   img.classList.add('card-img-top')
   
-  item.prepend(img);
+  label.prepend(img);
   
   collectionHolder.dataset.index++;
 

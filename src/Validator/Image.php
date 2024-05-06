@@ -15,5 +15,5 @@ class Image extends Constraint
      * Any public properties become valid options for the annotation.
      * Then, use these in your validator class.
      */
-    public $message = 'Certaines pièces jointes doivent être uploadées.';
+    public $message = 'Des pièces jointes doivent être uploadées.';
 }

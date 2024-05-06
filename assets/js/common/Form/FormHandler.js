@@ -15,13 +15,12 @@ export class FormHandler {
             mapping: {},
             ...options
         }
+    
         if (document.querySelector(formEltSelector).length) this._init(document.querySelector(formEltSelector))
-        // if ($(formEltSelector).length) this._init($(formEltSelector))
     }
 
     _init(formElt) {
         this.formElt = formElt
-        // this.formName = this.formElt.attr('name')
         this.formName = this.formElt.getAttribute('name')
         this.preventUnload = true;
     }
@@ -58,19 +57,11 @@ export class FormHandler {
 
         }
 
-        // if (type === 'meantime_updated') {
-        //     $('body').addClass('show-modal').find('.overlay-modal').fadeIn(500);
-        //     $('.modal-popin.meantime_updated').fadeIn().css("display", "flex").hide().fadeIn(100);
-        // }
-
-
     }
 
     _removeAllError() {
         document.querySelectorAll(".invalid-feedback").forEach((item) => {item.remove()})
         document.querySelectorAll(".form-control").forEach((item) => {item.classList.remove('is-invalid')})
-        // $(".invalid-feedback").remove()
-        // $(".form-control").removeClass('is-invalid')
     }
 
     _getErrorFields(errors) {
@@ -121,7 +112,6 @@ export class FormHandler {
                 }
             }
 
-            // let fieldElt = $('[name="' + errorFieldName + '"]')
             let fieldElt = document.querySelector("[name='" + errorFieldName + "']")
 
             if (!fieldElt) {
@@ -137,43 +127,19 @@ export class FormHandler {
                 }
 
                 fieldElt.classList.add('is-invalid')
-
-                if (Array.isArray(errors)) {
-                    errors.forEach(error => {
-                        const htmlErrorList = this._getFormHtmlErrorList(error)
-                        fieldEltHolder.append(htmlErrorList)
-                    })
-                } else {
-                    const htmlErrorList = this._getFormHtmlErrorList(errors)
-                    fieldEltHolder.append(htmlErrorList)
-                }
+                
+                const htmlErrorList = this._getFormHtmlErrorList(errors)
+                fieldEltHolder.insertAdjacentHTML('beforeend', htmlErrorList)
+                
             } else if (errorFieldName === 'property_globals') {
                 globalErrors.push(errors)
             }
         }
 
         if (globalErrors.length > 0) {
-            if (Array.isArray(globalErrors)) {
-                globalErrors.forEach(error => {
-                    const globalHtmlError = this._addFormHtmlError(error)
-                    document.querySelector(globalErrorContainer).append(globalHtmlError)
-                })
-            } else {
-                const globalHtmlError = this._addFormHtmlError(globalErrors)
-                document.querySelector(globalErrorContainer).append(globalHtmlError)
-            }
+            const globalHtmlErrorList = this._getFormHtmlErrorList(globalErrors)
+            document.querySelector(globalErrorContainer).insertAdjacentHTML( 'beforeend', globalHtmlErrorList);
         }
-    }
-
-    _addFormHtmlError(errors) {
-
-        const item = document.createElement('div');
-        item.classList.add('invalid-feedback')
-        item.classList.add('d-block')
-        item.innerText = errors
-
-        return item
-
     }
 
     _getFormHtmlErrorList(errors) {
@@ -183,27 +149,21 @@ export class FormHandler {
     }
 
     _getLiError(errors) {
-        let errorLi
+        let errorLi = ''
 
         if (Array.isArray(errors)) {
             errors.forEach((error, i) => {
                 errorLi = this._getLiError(error)
             });
         } else {
-            const item = document.createElement('div');
-            item.classList.add('invalid-feedback')
-            item.classList.add('d-block')
-            item.innerText = errors
-            errorLi = item
+            errorLi += "<div class=\"invalid-feedback d-block\">" + errors + "</div>"
         }
         return errorLi
     }
 
     _gotoFirstError() {
-        if ($('.is-invalid').length > 0) {
-            $("html, body").animate({
-                scrollTop: parseInt($('.invalid-feedback').first().offset().top) - 150
-            }, 0);
+        if (document.querySelectorAll('.is-invalid').length > 0) {
+            document.querySelector('html, body').scrollTop = document.querySelector('.invalid-feedback').offsetTop - 150;
         }
     }
 }

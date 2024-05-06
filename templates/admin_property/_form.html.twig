@@ -36,12 +36,15 @@
             
             {% for image in form.images %}
                 <div class="col-lg-6">
-                {% if image.vars.data.name %}
-                    <img src="{{ asset(uploaded_images_directory) ~ image.vars.data.name }}" class="w-100 h-auto card-img-top" />
-                {% else %}
-                    <img src="{{ asset('/images/pngtree-cartoon-european-classical-house-image_1278656.jpg') }}" class="w-100 h-auto card-img-top" />
-                {% endif %}
-                    {{ form_row(image.file) }}
+                    <label class="btn w-100 mb-0 p-0 overflow-hidden" style="height:120px;">
+                        {% if image.vars.data.name %}
+                            <img src="{{ asset(uploaded_images_directory) ~ image.vars.data.name }}" class="w-100 h-auto card-img-top" />
+                        {% else %}
+                            <img src="{{ asset('/images/pngtree-cartoon-european-classical-house-image_1278656.jpg') }}" class="w-100 h-auto card-img-top" />
+                        {% endif %}
+
+                        {{ form_row(image.file) }}
+                    </label>
                 </div>
             {% endfor %}
         </div>
