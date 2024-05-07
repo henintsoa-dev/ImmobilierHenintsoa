@@ -28,6 +28,8 @@ class AdminPropertyController extends AbstractController
 
     private $targetDirectory;
 
+    const CURRENT_MENU = "admin_property";
+
     public function __construct(FileUploader $fileUploader, string $targetDirectory)
     {
         $this->fileUploader = $fileUploader;
@@ -38,6 +40,7 @@ class AdminPropertyController extends AbstractController
     public function index(PropertyRepository $propertyRepository): Response
     {
         return $this->render('admin_property/index.html.twig', [
+            'current_menu' => self::CURRENT_MENU,
             'properties' => $propertyRepository->findBy([], ['id' => 'DESC']),
         ]);
     }
@@ -48,7 +51,7 @@ class AdminPropertyController extends AbstractController
         $photoMax    = 4;
 
         $property = new Property();
-        $form = $this->createForm(PropertyType::class, $property, ['is_new' => true]);
+        $form = $this->createForm(PropertyType::class, $property);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
@@ -102,6 +105,7 @@ class AdminPropertyController extends AbstractController
         }
 
         return $this->render('admin_property/new.html.twig', [
+            'current_menu' => self::CURRENT_MENU,
             'property' => $property,
             'form' => $form,
             'photoMax'  => $photoMax
@@ -128,7 +132,7 @@ class AdminPropertyController extends AbstractController
             $initialImages[]  = $image->getName();
         }
 
-        $form = $this->createForm(PropertyType::class, $property, ['is_new' => false]);
+        $form = $this->createForm(PropertyType::class, $property);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
@@ -196,6 +200,7 @@ class AdminPropertyController extends AbstractController
         }
 
         return $this->render('admin_property/edit.html.twig', [
+            'current_menu' => self::CURRENT_MENU,
             'property' => $property,
             'form' => $form,
             'photoMax'  => $photoMax,

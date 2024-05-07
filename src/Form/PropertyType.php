@@ -42,8 +42,7 @@ class PropertyType extends AbstractType
             ->add('images', CollectionType::class, [
                 'entry_type' => ImageType::class,
                 'entry_options' => [
-                    'label' => false, 
-                    'is_new' => $options['is_new'],
+                    'label' => false,
                     'row_attr' => ['class' => 'd-none']
                 ],
                 'allow_add' => true,
@@ -56,9 +55,6 @@ class PropertyType extends AbstractType
             ->add('postal_code')
             ->add('sold')
         ;
-
-        //$builder->addEventSubscriber(new ImageCacheSubscriber($this->cacheManager));
-        
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -66,7 +62,6 @@ class PropertyType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Property::class,
             'translation_domain' => 'form',
-            'is_new' => true,
             'constraints' => new ValidatorImage()
         ]);
     }
