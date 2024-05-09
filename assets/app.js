@@ -54,7 +54,8 @@ function addFormToCollection(e) {
   label.classList.add('mb-0')
   label.classList.add('p-0')
   label.classList.add('overflow-hidden')
-  label.style.height = "120px";
+  label.classList.add('image-preview')
+  // label.style.height = "120px";
 
   collectionHolder.appendChild(item);
 
@@ -88,7 +89,7 @@ function addTagFormDeleteLink(item) {
   removeFormButton.classList.add('btn-danger')
   removeFormButton.classList.add('w-100')
   removeFormButton.classList.add('mb-3')
-  removeFormButton.innerText = 'Delete this image';
+  removeFormButton.innerText = 'Supprimer';
 
   item.append(removeFormButton);
 

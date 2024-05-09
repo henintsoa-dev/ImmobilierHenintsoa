@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Image;
 use App\Utils\Form\FormHelper;
+use Knp\Component\Pager\PaginatorInterface;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -37,11 +38,17 @@ class AdminPropertyController extends AbstractController
     }
 
     #[Route('/', name: 'app_admin_property_index', methods: ['GET'])]
-    public function index(PropertyRepository $propertyRepository): Response
+    public function index(PaginatorInterface $paginator, Request $request, PropertyRepository $propertyRepository): Response
     {
+        $properties = $paginator->paginate(
+            $propertyRepository->findBy([], ['id' => 'DESC']),
+            $request->query->getInt('page', 1),
+            12
+        );
+
         return $this->render('admin_property/index.html.twig', [
             'current_menu' => self::CURRENT_MENU,
-            'properties' => $propertyRepository->findBy([], ['id' => 'DESC']),
+            'properties' => $properties,
         ]);
     }
 
@@ -121,7 +128,7 @@ class AdminPropertyController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_admin_property_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Property $property, EntityManagerInterface $entityManager, CacheManager $cacheManager): Response
+    public function edit(Request $request, Property $property, EntityManagerInterface $entityManager): Response
     {
         $photoMax    = 4;
         $initialImages = [];
