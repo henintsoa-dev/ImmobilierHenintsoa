@@ -18,8 +18,6 @@ if (element) {
   });
 }
 
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
-
 document.addEventListener('DOMContentLoaded', function() {
   document
       .querySelectorAll('div.images div.col-lg-6')
@@ -55,7 +53,6 @@ function addFormToCollection(e) {
   label.classList.add('p-0')
   label.classList.add('overflow-hidden')
   label.classList.add('image-preview')
-  // label.style.height = "120px";
 
   collectionHolder.appendChild(item);
 
