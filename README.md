@@ -14,7 +14,7 @@ composer install
 npm install && npm run dev
 ```
 
-- Migration de la base de données :
+- Création de la base de données :
 
 ```
 php bin/console doctrine:database:create
@@ -40,6 +40,7 @@ php bin/console doctrine:fixtures:load
 
 
 - **Admin :** http://localhost:8000/admin/property
-    - **Admin :** admin@admin.com / azerty
+    - **Admin :** john@doe.com / demo
 
-- Mailhog : http://localhost:8095/
+- Outil pour les e-mails : maildev.   
+    
