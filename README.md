@@ -1,4 +1,4 @@
-# Projet ImmobilierHenintsoa
+# Projet Immobilier
 
 ## Installation
 
@@ -42,5 +42,5 @@ php bin/console doctrine:fixtures:load
 - **Admin :** http://localhost:8000/admin/property
     - **Admin :** john@doe.com / demo
 
-- Outil pour les e-mails : maildev.   
+- **Outil pour les e-mails :** maildev.   
     
