@@ -42,5 +42,7 @@ php bin/console doctrine:fixtures:load
 - **Admin :** http://localhost:8000/admin/property
     - **Admin :** john@doe.com / demo
 
+- **Option :** http://localhost:8000/admin/option
+
 - **Outil pour les e-mails :** maildev.   
     
