@@ -32,6 +32,12 @@ php bin/console doctrine:migrations:migrate
 php bin/console doctrine:fixtures:load
 ```
 
+- Outil pour les e-mails : maildev.
+
+```
+maildev --hide-extensions STARTTLS
+```
+
 ## Accès
 
 (_LOGIN / MDP_)
@@ -39,10 +45,10 @@ php bin/console doctrine:fixtures:load
 - **Front :** http://localhost:8000/
 
 
-- **Admin :** http://localhost:8000/admin/property
-    - **Admin :** john@doe.com / demo
+- **Admin :** 
+    - **Login :** http://localhost:8000/login
+    - **Identifiants :** john@doe.com / demo
+    - **Biens  :** http://localhost:8000/admin/property
+    - **Options :** http://localhost:8000/admin/option
 
-- **Option :** http://localhost:8000/admin/option
-
-- **Outil pour les e-mails :** maildev.   
     
