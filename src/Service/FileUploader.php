@@ -1,6 +1,7 @@
 <?php
 namespace App\Service;
 
+use App\Notification\ContactNotification;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -10,6 +11,7 @@ class FileUploader
     public function __construct(
         private string $targetDirectory,
         private SluggerInterface $slugger,
+        private ContactNotification $contactNotification
     ) {
     }
 
@@ -22,7 +24,7 @@ class FileUploader
         try {
             $file->move($this->getTargetDirectory(), $fileName);
         } catch (FileException $e) {
-            // ... handle exception if something happens during file upload
+            $this->contactNotification->notifyException($e);
         }
 
         return $fileName;

@@ -3,7 +3,9 @@
 
 use App\Entity\Contact;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 class ContactNotification {
 
@@ -26,6 +28,17 @@ class ContactNotification {
                 ->replyTo($contact->getEmail())
                 ->htmlTemplate('emails/contact.html.twig',)
                 ->context(['contact' => $contact]);
+            
+            $this->mailer->send($message);
+        }
+
+        public function notifyException(FileException $e)
+        {
+            $message = (new Email())
+                ->from('noreply@server.com')
+                ->to('contact@agence.fr')
+                ->subject('An Exception has occured. ')
+                ->html('<p>'.$e->getMessage().'</p>');
             
             $this->mailer->send($message);
         }
