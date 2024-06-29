@@ -1,0 +1,6 @@
+services:
+  App\Service\FileUploader:
+    public: true
+  
+  Symfony\Component\String\Slugger\SluggerInterface:
+   public: true

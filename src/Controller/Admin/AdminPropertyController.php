@@ -93,21 +93,21 @@ class AdminPropertyController extends AbstractController
                 } else {
                     return $this->redirectToRoute($redirectRoute, $redirectParams);
                 }
-            }
-            // If it's an AJAX request...
-            elseif ($request->isXmlHttpRequest()) {
-                $env = $this->getParameter('kernel.environment');
+            } else {
+                if ($request->isXmlHttpRequest()) {  // If it's an AJAX request...
+                    $env = $this->getParameter('kernel.environment');
 
-                $response = new JsonResponse([
-                    'type' => 'validation_error',
-                    'errors' => FormHelper::getFormErrors($form)
-                ], 400);
+                    $response = new JsonResponse([
+                        'type' => 'validation_error',
+                        'errors' => FormHelper::getFormErrors($form)
+                    ], 400);
 
-                if ($env === 'dev') {
-                    $response->headers->set('Symfony-Debug-Toolbar-Replace', 1);
+                    if ($env === 'dev') {
+                        $response->headers->set('Symfony-Debug-Toolbar-Replace', 1);
+                    }
+
+                    return $response;
                 }
-
-                return $response;
             }
         }
 
