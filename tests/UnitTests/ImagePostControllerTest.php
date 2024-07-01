@@ -4,12 +4,13 @@ namespace Tests\UnitTests;
 
 use App\Notification\ContactNotification;
 use App\Service\FileUploader;
+use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
-class ImagePostControllerTest extends KernelTestCase {
+class ImagePostControllerTest extends TestCase {
     
     public function testImageIsUploaded():void {
         $mailer = $this->createMock(MailerInterface::class);
