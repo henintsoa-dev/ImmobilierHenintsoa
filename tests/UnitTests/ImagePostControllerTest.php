@@ -24,5 +24,4 @@ class ImagePostControllerTest extends KernelTestCase {
 
         $this->assertIsString($filename);
     }
-
 }
