@@ -8,6 +8,7 @@ use App\Notification\ContactNotification;
 use App\Service\FileUploader;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
@@ -45,5 +46,17 @@ class ContactNotificationPostControllerTest extends TestCase {
         $mailer->expects($this->once())->method('send');
 
         $contactNotification->notify($contact);
+    }
+
+    public function testExceptionNotification() {
+        $exception = new FileException("Your file could not be uploaded correctly", 500);
+        $mailer = $this->getMockBuilder(MailerInterface::class)
+            ->onlyMethods(['send'])
+            ->getMock();
+        $contactNotification = new ContactNotification($mailer);
+
+        $mailer->expects($this->once())->method('send');
+
+        $contactNotification->notifyException($exception);
     }
 }
