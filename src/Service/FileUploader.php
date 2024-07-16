@@ -24,7 +24,7 @@ class FileUploader
         try {
             $file->move($this->getTargetDirectory(), $fileName);
         } catch (FileException $e) {
-            $this->contactNotification->notifyException($e);
+            
         }
 
         return $fileName;
