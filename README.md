@@ -32,7 +32,7 @@ php bin/console doctrine:migrations:migrate
 php bin/console doctrine:fixtures:load
 ```
 
-- Installer [maildev] (https://grafikart.fr/tutoriels/maildev-tester-emails-595), puis :
+- Installer maildev https://grafikart.fr/tutoriels/maildev-tester-emails-595, puis :
 
 ```
 maildev --hide-extensions STARTTLS
