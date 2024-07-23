@@ -187,9 +187,7 @@ class AdminPropertyController extends AbstractController
                 } else {
                     return $this->redirectToRoute($redirectRoute, $redirectParams);
                 }
-            } 
-            // If it's an AJAX request...
-            elseif ($request->isXmlHttpRequest()) {
+            } elseif ($request->isXmlHttpRequest()) { //If it's an AJAX request...
                 $env = $this->getParameter('kernel.environment');
 
                 $response = new JsonResponse([
@@ -203,7 +201,6 @@ class AdminPropertyController extends AbstractController
 
                 return $response;
             }
-            
         }
 
         return $this->render('admin_property/edit.html.twig', [
