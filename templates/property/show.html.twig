@@ -131,25 +131,26 @@
 {% endblock %}
 
 {% block javascripts %}
+    {{ parent() }}
     <script>
-        document.addEventListener('DOMContentLoaded', function (){
-            const myCarousel = document.querySelector('#carouselExampleDark')
-            const carousel = new bootstrap.Carousel(myCarousel, {
-              interval: 7000
-            })
-            const contactButton = document.getElementById('contactButton');
+        // document.addEventListener('DOMContentLoaded', function (){
+        //     const myCarousel = document.querySelector('#carouselExampleDark')
+        //     const carousel = new bootstrap.Carousel(myCarousel, {
+        //       interval: 7000
+        //     })
+        //     const contactButton = document.getElementById('contactButton');
             
-            if (contactButton) {
+        //     if (contactButton) {
                 
-                contactButton.addEventListener('click', function(e) {
-                    e.preventDefault();
+        //         contactButton.addEventListener('click', function(e) {
+        //             e.preventDefault();
                 
-                    const contactForm = document.querySelector('#contactForm')
+        //             const contactForm = document.querySelector('#contactForm')
                     
-                    contactForm.classList.toggle('hidden')
-                })
+        //             contactForm.classList.toggle('hidden')
+        //         })
             
-            }
-        })
+        //     }
+        // })
     </script>
 {% endblock %}

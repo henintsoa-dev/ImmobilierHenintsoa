@@ -9,6 +9,8 @@ export class Page {
     static init () {
         Page.handleForm()
         Page.handleImagePreview()
+        Page.handleCarousel()
+        Page.handleContactButton()
     }
 
     static handleForm () {
@@ -39,6 +41,34 @@ export class Page {
         })
 
         Page.previewImage()
+    }
+
+    static handleCarousel () {
+        document.addEventListener('DOMContentLoaded', function (){
+            const myCarousel = document.querySelector('#carouselExampleDark')
+            
+            if (myCarousel) {
+                new bootstrap.Carousel(myCarousel, {
+                  interval: 7000
+                })
+            }
+        })
+    }
+
+    static handleContactButton () {
+        const contactButton = document.getElementById('contactButton');
+            
+        if (contactButton) {
+            
+            contactButton.addEventListener('click', function(e) {
+                e.preventDefault();
+            
+                const contactForm = document.querySelector('#contactForm')
+                
+                contactForm.classList.toggle('hidden')
+            })
+        
+        }
     }
 
     static addFormToCollection (e) {

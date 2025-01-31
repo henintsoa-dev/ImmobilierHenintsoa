@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e6d9b2444cbf11063123ed9341a81360",
+    "content-hash": "72335ebcc9b9833d0269bfa2723d3af4",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -8535,16 +8535,16 @@
     "packages-dev": [
         {
             "name": "dbrekelmans/bdi",
-            "version": "1.3.0",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dbrekelmans/bdi.git",
-                "reference": "46e5f8ec09bac842ab569c02e64476408aa46ef8"
+                "reference": "fa2ff9b5ed0508ddf5cd574f9dfa6fea954a9acd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dbrekelmans/bdi/zipball/46e5f8ec09bac842ab569c02e64476408aa46ef8",
-                "reference": "46e5f8ec09bac842ab569c02e64476408aa46ef8",
+                "url": "https://api.github.com/repos/dbrekelmans/bdi/zipball/fa2ff9b5ed0508ddf5cd574f9dfa6fea954a9acd",
+                "reference": "fa2ff9b5ed0508ddf5cd574f9dfa6fea954a9acd",
                 "shasum": ""
             },
             "require": {
@@ -8578,9 +8578,9 @@
                 "browser-driver-installer"
             ],
             "support": {
-                "source": "https://github.com/dbrekelmans/bdi/tree/1.3.0"
+                "source": "https://github.com/dbrekelmans/bdi/tree/1.4.0"
             },
-            "time": "2024-02-22T15:29:35+00:00"
+            "time": "2024-12-12T18:36:47+00:00"
         },
         {
             "name": "doctrine/common",
