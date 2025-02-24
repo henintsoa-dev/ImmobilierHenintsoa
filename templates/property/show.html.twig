@@ -3,9 +3,8 @@
 {% block title property.title %}
 
 {% block stylesheets %}
-{{ parent() }}
-{{ encore_entry_link_tags('property_show') }}
-{# <link rel="stylesheet" href="{{ asset('/styles/style.css') }}"> #}
+    {{ parent() }}
+    {{ encore_entry_link_tags('property_show') }}
 {% endblock %}
 
 {% block body %}
