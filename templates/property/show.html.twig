@@ -4,7 +4,8 @@
 
 {% block stylesheets %}
 {{ parent() }}
-<link rel="stylesheet" href="{{ asset('/styles/style.css') }}">
+{{ encore_entry_link_tags('property_show') }}
+{# <link rel="stylesheet" href="{{ asset('/styles/style.css') }}"> #}
 {% endblock %}
 
 {% block body %}
