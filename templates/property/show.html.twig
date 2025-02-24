@@ -89,7 +89,6 @@
 </div>
 
 <div class="container mt-4">
-    <!-- nav class="nav nav-tabs" id="tab"></nav -->
     <p> {{ property.description|nl2br }} </p>
 
     <div class="row">
@@ -102,19 +101,19 @@
                 </tr>
                 <tr>
                     <td>Pièces</td>
-                    <td>{{ property.rooms }} m²</td>
+                    <td>{{ property.rooms }}</td>
                 </tr>
                 <tr>
                     <td>Chambres</td>
-                    <td>{{ property.bedrooms }} m²</td>
+                    <td>{{ property.bedrooms }}</td>
                 </tr>
                 <tr>
                     <td>Etage</td>
-                    <td>{{ property.floor }} m²</td>
+                    <td>{{ property.floor }}</td>
                 </tr>
                 <tr>
                     <td>Chauffage</td>
-                    <td>{{ property.heatType }} m²</td>
+                    <td>{{ property.heatType }}</td>
                 </tr>
             </table>
         </div>
@@ -132,25 +131,4 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script>
-        // document.addEventListener('DOMContentLoaded', function (){
-        //     const myCarousel = document.querySelector('#carouselExampleDark')
-        //     const carousel = new bootstrap.Carousel(myCarousel, {
-        //       interval: 7000
-        //     })
-        //     const contactButton = document.getElementById('contactButton');
-            
-        //     if (contactButton) {
-                
-        //         contactButton.addEventListener('click', function(e) {
-        //             e.preventDefault();
-                
-        //             const contactForm = document.querySelector('#contactForm')
-                    
-        //             contactForm.classList.toggle('hidden')
-        //         })
-            
-        //     }
-        // })
-    </script>
 {% endblock %}
