@@ -14,11 +14,14 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/admin/option')]
 class AdminOptionController extends AbstractController
 {
+    const CURRENT_MENU = "admin_option";
+
     #[Route('/', name: 'app_admin_option_index', methods: ['GET'])]
     public function index(OptionRepository $optionRepository): Response
     {
         return $this->render('admin_option/index.html.twig', [
             'options' => $optionRepository->findAll(),
+            'current_menu' => self::CURRENT_MENU
         ]);
     }
 
@@ -39,6 +42,7 @@ class AdminOptionController extends AbstractController
         return $this->render('admin_option/new.html.twig', [
             'option' => $option,
             'form' => $form,
+            'current_menu' => self::CURRENT_MENU
         ]);
     }
 
@@ -57,6 +61,7 @@ class AdminOptionController extends AbstractController
         return $this->render('admin_option/edit.html.twig', [
             'option' => $option,
             'form' => $form,
+            'current_menu' => self::CURRENT_MENU
         ]);
     }
 
