@@ -54,7 +54,7 @@ class PropertyRepository extends ServiceEntityRepository
             }
         }
 
-        return $query->getQuery();
+        return $query->orderBy('p.id', 'DESC')->getQuery();
     }
 
     /**
