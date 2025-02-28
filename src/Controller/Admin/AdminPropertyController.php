@@ -13,10 +13,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Image;
 use App\Utils\Form\FormHelper;
+use Doctrine\Common\Collections\Collection;
 use Knp\Component\Pager\PaginatorInterface;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Doctrine\ORM\PersistentCollection;
 
 #[Route('/admin/property')]
 class AdminPropertyController extends AbstractController
@@ -63,17 +65,7 @@ class AdminPropertyController extends AbstractController
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
-                $images = $form->get('images')->getData();
-
-                /** @var Image $image **/
-                foreach ($images as $image) {
-                    if ($image->getFile()) {
-                        $fileName = $this->fileUploader->upload($image->getFile());
-                        $image->setName($fileName);
-
-                        $property->addImage($image);
-                    }
-                }
+                $this->addImagesToProperty($form->get('images')->getData(), $property);
                 
                 $entityManager->persist($property);
                 $entityManager->flush();
@@ -144,17 +136,7 @@ class AdminPropertyController extends AbstractController
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
-                $images = $form->get('images')->getData();
-
-                /** @var Image $image **/
-                foreach ($images as $image) {
-                    if ($image->getFile()) {
-                        $fileName = $this->fileUploader->upload($image->getFile());
-                        $image->setName($fileName);
-
-                        $property->addImage($image);
-                    }
-                }
+                $this->addImagesToProperty($form->get('images')->getData(), $property);
                 
                 $entityManager->flush();
                 
@@ -234,5 +216,17 @@ class AdminPropertyController extends AbstractController
         }
 
         return $this->redirectToRoute('app_admin_property_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    private function addImagesToProperty(Collection $images, Property $property): void {
+        /** @var Image $image **/
+        foreach ($images as $image) {
+            if ($image->getFile()) {
+                $fileName = $this->fileUploader->upload($image->getFile());
+                $image->setName($fileName);
+
+                $property->addImage($image);
+            }
+        }
     }
 }
