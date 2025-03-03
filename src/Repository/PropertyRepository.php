@@ -54,7 +54,7 @@ class PropertyRepository extends ServiceEntityRepository
             }
         }
 
-        return $query->orderBy('p.id', 'DESC')->getQuery();
+        return $query->getQuery();
     }
 
     /**
@@ -63,7 +63,6 @@ class PropertyRepository extends ServiceEntityRepository
     public function findLatest(): array
     {
         return $this->findVisibleQuery()
-                ->orderBy('p.id', 'DESC')
                 ->setMaxResults(4)
                 ->getQuery()
                 ->getResult()
@@ -73,7 +72,8 @@ class PropertyRepository extends ServiceEntityRepository
     private function findVisibleQuery(): QueryBuilder
     {
         return $this->createQueryBuilder('p')
-                ->andWhere('p.sold = false');
+                ->andWhere('p.sold = false')
+                ->orderBy('p.id', 'DESC');
     }
 
     //    /**
